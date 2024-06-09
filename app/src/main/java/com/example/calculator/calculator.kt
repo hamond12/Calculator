@@ -2,7 +2,7 @@ class Calculator {
     private fun opPriority(op: Char): Int {
         return when (op) {
             '+', '-' -> 1
-            '*', '/' -> 2
+            'x', '÷' -> 2
             else -> 0
         }
     }
@@ -20,7 +20,7 @@ class Calculator {
                     }
                     stack.removeAt(stack.lastIndex)
                 }
-                i in "+-*/" -> {
+                i in "+-x÷" -> {
                     while (stack.isNotEmpty() && opPriority(i) <= opPriority(stack.last())) {
                         num.append(" ${stack.removeAt(stack.lastIndex)}")
                     }
@@ -41,18 +41,15 @@ class Calculator {
         val stack = mutableListOf<Double>()
 
         for (i in postfixEx.split(" ")) {
-            // 피연산자인 경우 스택에 추가
             if (i.matches(Regex("-?\\d+(\\.\\d+)?"))) stack.add(i.toDouble())
-
-            // 연산자인 경우 스택에서 피연산자들을 꺼내서 계산하고 결과를 다시 스택에 추가
             else {
                 val op1 = stack.removeAt(stack.lastIndex)
                 val op2 = stack.removeAt(stack.lastIndex)
                 when (i) {
-                    "+" -> stack.add(op1 + op2)
-                    "-" -> stack.add(op1 - op2)
-                    "*" -> stack.add(op1 * op2)
-                    "/" -> stack.add(op1 / op2)
+                    "+" -> stack.add(op2 + op1)
+                    "-" -> stack.add(op2 - op1)
+                    "x" -> stack.add(op2 * op1)
+                    "÷" -> stack.add(op2 / op1)
                 }
             }
         }
