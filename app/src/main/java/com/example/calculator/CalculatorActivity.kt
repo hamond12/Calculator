@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.exp
@@ -41,17 +42,26 @@ class CalculatorActivity : AppCompatActivity() {
                 }
             }
             "+", "-", "x", "÷" -> {
-                if(expressionText.isNotEmpty() && expressionText.last() !in "+-x÷"){
+                if (expressionText.isNotEmpty() && expressionText.last() !in "+-x÷") {
                     expression.text = expressionText + buttonText
                 }
             }
             "=" -> {
-                if(expressionText.isNotEmpty()){
-                    val res = calculator.calculate(expressionText)
-                    result.text = "= " + res.toString()
+                if (expressionText.isNotEmpty()) {
+                    try {
+                        val res = calculator.calculate(expressionText)
+                        result.text = "= " + res.toString()
+                    } catch (e: IndexOutOfBoundsException) {
+                        Toast.makeText(this, "올바르지 않은 수식입니다.", Toast.LENGTH_SHORT).show()
+                        expression.text = ""
+                    }
                 }
             }
             else -> expression.text = expressionText + buttonText
         }
     }
 }
+
+
+
+

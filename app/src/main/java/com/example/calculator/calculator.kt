@@ -6,6 +6,7 @@ class Calculator {
             else -> 0
         }
     }
+
     private fun infixToPostfix(str: String): String {
         val num = StringBuilder()
         val stack = mutableListOf<Char>()
@@ -56,6 +57,7 @@ class Calculator {
 
         return stack.first()
     }
+
     fun calculate(ex: String): Any {
         val postfix = infixToPostfix(ex)
         val res = calculatePostfix(postfix)
